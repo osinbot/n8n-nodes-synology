@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n-test
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
+      - TZ=Asia/Ho_Chi_Minh
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_CUSTOM_EXTENSIONS=/home/node/.n8n/custom
+      - NODE_ENV=production
+      - DB_TYPE=sqlite
+    volumes:
+      - ./n8n_data:/home/node/.n8n:rw
+      - ./:/home/node/.n8n/custom/n8n-nodes-synology
+    networks:
+      - n8n-network
+
+networks:
+  n8n-network:
+    driver: bridge
