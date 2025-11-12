@@ -1,8 +1,4 @@
 export const API_ENDPOINTS = {
-    SynologyAuth: {
-        LOGIN: '/webapi/auth.cgi?api=SYNO.API.Auth&method=login&version=3',
-        LOGOUT: '/webapi/auth.cgi?api=SYNO.API.Auth&method=logout&version=3',
-    },
     SynologyDrive: {
         LIST: '/api/SynologyDrive/default/v1/files/list',
         SEARCH: '/api/SynologyDrive/default/v1/files/search',

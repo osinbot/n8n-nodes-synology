@@ -8,7 +8,6 @@ import type {
     INodeProperties,
     Icon
 } from 'n8n-workflow';
-import { API_ENDPOINTS } from "../commons/constants";
 import { getMessageFromErrorCode } from '../utils';
 
 export class SynologyApi implements ICredentialType {
@@ -94,7 +93,7 @@ export class SynologyApi implements ICredentialType {
     ];
 
     async preAuthentication(this: IHttpRequestHelper, credentials: ICredentialDataDecryptedObject) {
-        const url = `${credentials.baseUrl}${API_ENDPOINTS.SynologyAuth.LOGIN}`
+        const url = `${credentials.baseUrl}/webapi/auth.cgi?api=SYNO.API.Auth&method=login&version=3`
             +`&account=${credentials.username}`
             +`&passwd=${credentials.password}`
             +`&session=${credentials.serviceType || 'SynologyDrive'}`
@@ -143,7 +142,7 @@ export class SynologyApi implements ICredentialType {
 
     test: ICredentialTestRequest = {
         request: {
-            url: '={{$credentials.baseUrl}}={{$API_ENDPOINTS.SynologyAuth.LOGIN}}&account=={{$credentials.username}}&passwd=={{$credentials.password}}&session=={{$credentials.serviceType}}&format=sid',
+            url: '={{$credentials.baseUrl}}/webapi/auth.cgi?api=SYNO.API.Auth&method=login&version=3&account=={{$credentials.username}}&passwd=={{$credentials.password}}&session=={{$credentials.serviceType}}&format=sid',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
