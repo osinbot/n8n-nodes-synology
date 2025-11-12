@@ -3,4 +3,5 @@ export {
     getMessageFromErrorCode,
     isKnownErrorCode
 } from './errorMessages';
+export { createMultipartFormData, type MultipartField, type MultipartFormDataResult } from './multipartFormData';
 

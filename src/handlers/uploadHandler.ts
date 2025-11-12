@@ -3,11 +3,8 @@ import type {
     IHttpRequestOptions,
 } from 'n8n-workflow';
 import { NodeOperationError } from 'n8n-workflow';
-import FormData from 'form-data';
+import { createMultipartFormData } from '../utils';
 
-/**
- * Pre-send handler for Upload operation
- */
 export async function uploadPreSend(
     this: IExecuteSingleFunctions,
     requestOptions: IHttpRequestOptions,
@@ -15,8 +12,6 @@ export async function uploadPreSend(
     requestOptions.headers = {
         ...requestOptions.headers,
     };
-    
-    const body = new FormData();
     
     const binaryPropertyName = this.getNodeParameter('binaryPropertyName') as string;
     if (!binaryPropertyName) {
@@ -42,20 +37,31 @@ export async function uploadPreSend(
     const conflictAction = this.getNodeParameter('uploadConflictAction') as string;
     
     this.logger.debug(`Upload path: ${path}`);
+
+    const multipartData = createMultipartFormData([
+        {
+            name: 'conflict_action',
+            value: conflictAction,
+        },
+        {
+            name: 'path',
+            value: path,
+        },
+        {
+            name: 'type',
+            value: 'file',
+        },
+        {
+            name: 'file',
+            value: binaryDataBuffer,
+            filename: binaryData.fileName?.toString() || fileName,
+            contentType: binaryData.mimeType,
+        },
+    ]);
     
-    body.append('conflict_action', conflictAction);
-    body.append('path', path);
-    body.append('type', 'file');
-    body.append('file', binaryDataBuffer, {
-        filename: binaryData.fileName,
-        contentType: binaryData.mimeType,
-        knownLength: binaryDataBuffer.length,
-    });
-    
-    requestOptions.body = body;
-    requestOptions.headers['Content-Length'] = body.getLengthSync();
-    requestOptions.headers['Content-Type'] = `multipart/related; boundary=${body.getBoundary()}`;
-    requestOptions.headers['Content-Type'] = 'multipart/form-data';
+    requestOptions.body = multipartData.body;
+    requestOptions.headers['Content-Length'] = multipartData.body.length.toString();
+    requestOptions.headers['Content-Type'] = multipartData.contentType;
     
     return requestOptions;
 }
