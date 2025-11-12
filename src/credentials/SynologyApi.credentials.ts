@@ -71,6 +71,7 @@ export class SynologyApi implements ICredentialType {
             name: 'allowUnauthorizedCerts',
             type: 'boolean',
             default: true,
+            typeOptions: { password: true }
         },
         {
             displayName: 'Session ID',
