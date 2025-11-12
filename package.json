@@ -1,51 +1,57 @@
 {
-    "name": "n8n-nodes-synology",
-    "version": "0.1.0",
-    "description": "N8N community nodes package for Synology",
-    "license": "MIT",
-    "homepage": "https://osinbot.com",
-    "keywords": [
-        "n8n-community-node-package"
+  "name": "n8n-nodes-synology",
+  "version": "0.1.0",
+  "description": "N8N community nodes package for Synology",
+  "license": "MIT",
+  "homepage": "https://osinbot.com",
+  "keywords": [
+    "n8n-community-node-package"
+  ],
+  "author": {
+    "name": "Ngoc Nguyen",
+    "email": "ngocnh210@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osinbot/n8n-nodes-synology.git"
+  },
+  "scripts": {
+    "build": "n8n-node build && npm run copy:icons",
+    "copy:icons": "copyfiles -u 1 \"src/**/*.{png,svg}\" dist/",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/SynologyApi.credentials.js"
     ],
-    "author": {
-        "name": "Ngoc Nguyen",
-        "email": "ngocnh210@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/osinbot/n8n-nodes-synology.git"
-    },
-   "scripts": {
-		"build": "n8n-node build",
-		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
-		"lint": "n8n-node lint",
-        "lint:fix": "n8n-node lint --fix",
-		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
-	},
-    "files": [
-        "dist"
-    ],
-    "n8n": {
-        "n8nNodesApiVersion": 1,
-        "strict": true,
-        "credentials": [
-            "dist/credentials/GithubIssuesApi.credentials.js",
-            "dist/credentials/GithubIssuesOAuth2Api.credentials.js"
-        ],
-        "nodes": [
-            "dist/nodes/GithubIssues/GithubIssues.node.js"
-        ]
-    },
-    "devDependencies": {
-        "@n8n/node-cli": "*",
-        "eslint": "9.32.0",
-        "prettier": "3.6.2",
-        "release-it": "^19.0.4",
-        "typescript": "5.9.2"
-    },
-    "peerDependencies": {
-        "n8n-workflow": "*"
-    }
+    "nodes": [
+      "dist/nodes/SynologyDrive/SynologyDrive.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "*",
+    "@types/node": "^24.10.1",
+    "copyfiles": "^2.4.1",
+    "eslint": "9.32.0",
+    "prettier": "3.6.2",
+    "release-it": "^19.0.4",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "form-data": "^4.0.4",
+    "n8n-workflow": "^1.117.0"
+  }
 }
