@@ -9,16 +9,40 @@ services:
       - "5678:5678"
     environment:
       - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
-      - TZ=Asia/Ho_Chi_Minh
       - N8N_RUNNERS_ENABLED=true
-      - N8N_CUSTOM_EXTENSIONS=/home/node/.n8n/custom
       - NODE_ENV=production
-      - DB_TYPE=sqlite
+      - N8N_ENCRYPTION_KEY="9FpNYHYuW12Oj9YpzeIIaE+St6i5Msa1"
+      - N8N_PUSH_BACKEND=websocket
+      - N8N_PUSH_FRONTEND=enabled
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_REINSTALL_MISSING_PACKAGES=true
+      - NODE_ENV=production
+      - NODE_FUNCTION_ALLOW_BUILTIN=*
+      - PYTHONUNBUFFERED=1
+      - CODE_DISABLE_STDOUT=true
+      - N8N_DIAGNOSTICS_ENABLED=false
+      - SKIP_STATISTICS_EVENTS=true
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - EXECUTIONS_MODE=queue
+      - N8N_DISABLE_PRODUCTION_MAIN_PROCESS=false
+      - QUEUE_BULL_REDIS_HOST=192.168.2.22
+      - QUEUE_BULL_REDIS_PORT=6379
+      - QUEUE_BULL_REDIS_PASSWORD=123maivip
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=192.168.2.21
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=osinbot
+      - DB_POSTGRESDB_PASSWORD=@1Trieu$
+      - DB_POSTGRESDB_POOL_SIZE=1
+      - TZ=Asia/Ho_Chi_Minh
     volumes:
-      - ./n8n_data:/home/node/.n8n:rw
+      - n8n_data:/home/node/.n8n:rw
       - ./:/home/node/.n8n/custom/n8n-nodes-synology
     networks:
       - n8n-network
+
+volumes:
+  n8n_data:
 
 networks:
   n8n-network:
